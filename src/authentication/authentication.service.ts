@@ -33,7 +33,7 @@ export class AuthenticationService {
     public async getAuthenticatedUser(email: string, plaintextPassword: string) {
         try {
             const user = await this.usersService.getByEmail(email);
-            await this.verifyPassword(plaintextPassword, user.password);
+            await AuthenticationService.verifyPassword(plaintextPassword, user.password);
             return user;
         } catch (error) {
             throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST);

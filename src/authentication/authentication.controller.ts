@@ -22,12 +22,11 @@ export class AuthenticationController {
     @HttpCode(200)
     @UseGuards(LocalAuthenticationGuard)
     @Post('login')
-    async login(@Req() request: RequestWithUser, @Res() response: Response) {
-        const {user} = request;
+    async login(@Req() request: RequestWithUser) {
+        const { user } = request;
         const cookie = this.authenticationService.getCookieWithJwtToken(user.id);
-        response.setHeader('Set-Cookie', cookie);
-        user.password = undefined;
-        return response.send(request.user);
+        request.res.setHeader('Set-Cookie', cookie);
+        return user;
     }
 
     @UseGuards(JwtAuthenticationGuard)
